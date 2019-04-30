@@ -9,22 +9,30 @@ from pygame import gfxdraw
 from pygame.locals import *
 
 pygame.init()
+pygame.font.init()
 
 WIDTH, HEIGHT = 1000, 800
 win = pygame.display.set_mode((WIDTH, HEIGHT))
+font = pygame.font.SysFont('Roboto', 200)
 pygame.display.set_caption('Atari breakout!')
 
 fpsClock = pygame.time.Clock()
 
-WHITE = (255,	255, 255)
-GREY = (127,	127, 127)
-BLACK = (0,	0,  0)
-RED = (255,	0,  0)
-GREEN = (0, 	255, 0)
-BLUE = (0, 	0,	255)
-DARK_RED = (127,	0, 	0)
-DARK_GREEN = (0,	127, 0)
-DARK_BLUE = (0, 	0,	127)
+# Colours
+WHITE = (255, 255, 255)
+GREY = (127, 127, 127)
+BLACK = (0, 0, 0)
+FUCHSIA = (255, 0, 255)
+RED = (255, 0, 0)
+ORANGE = (255, 127, 0)
+JELLOW = (255, 255, 0)
+GREEN = (0, 255, 0)
+AQUA = (0, 255, 255)
+BLUE = (0, 0, 255)
+PURPLE = (255, 0, 255)
+DARK_RED = (127, 0, 0)
+DARK_GREEN = (0, 127, 0)
+DARK_BLUE = (0, 0, 127)
 
 BLOCKWIDTH = 100
 BLOCKHEIGHT = 30
@@ -38,6 +46,13 @@ def safe_div(x, y):
 	if y == 0 or x == 0:
 		return 0
 	return x/y
+
+
+def winning_scene():
+	winning_text = font.render('You won!!!', True, WHITE)
+	pygame.draw.rect(win, ORANGE, (WIDTH/7, HEIGHT/5, (WIDTH/7)*5, (HEIGHT/5)*3))
+	win.blit(winning_text, ((WIDTH-winning_text.get_width()) /
+                         2, (HEIGHT-winning_text.get_height())/2))
 
 
 class Block():
@@ -65,6 +80,9 @@ class Paddle():
 		self.width = w
 		self.height = h
 		self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
+		self.leftrect = pygame.Rect(self.x, self.y, self.width/2, self.height/2)
+		self.rightrect = pygame.Rect(
+			self.x+(self.width/2), self.y+(self.height/2), self.width/2, self.height/2)
 		self.color = c
 
 	def control(self, key=None):
@@ -72,8 +90,10 @@ class Paddle():
 
 	def draw(self):
 		self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
-		pygame.draw.rect(win, (255, 255, 255),
-		                 (self.x, self.y, self.width, self.height))
+		self.leftrect = pygame.Rect(self.x, self.y, self.width/2, self.height/2)
+		self.rightrect = pygame.Rect(
+			self.x+(self.width/2), self.y+(self.height/2), self.width/2, self.height/2)
+		pygame.draw.rect(win, (255, 255, 255), self.rect)
 
 
 class Ball():
@@ -149,7 +169,6 @@ for row in range(BLOCK_LAYERS):
 paddle = Paddle((WIDTH/2)-(PADDLE_WIDTH/2), HEIGHT-50, PADDLE_WIDTH, 15, BLUE)
 ball = Ball(WIDTH//2, HEIGHT-350, -1, -1, 5, 10)
 
-
 # Main loop
 run = True
 while run:
@@ -171,6 +190,8 @@ while run:
 	paddle.draw()
 
 	# Block control
+	if len(blocks) == 0:
+		winning_scene()
 	for block in blocks:
 		block.draw()
 
@@ -185,19 +206,23 @@ while run:
 			ball.bounce_left()
 		elif blockrights[ball.collided_block].colliderect(ball.rect):
 			ball.bounce_right()
-		else:
-			print("LIDL")
-		print(ball.collided_block)
 		del blocks[ball.collided_block]
 		del blocktops[ball.collided_block]
 		del blockbottoms[ball.collided_block]
 		del blocklefts[ball.collided_block]
 		del blockrights[ball.collided_block]
 
-	ball.draw()
+	if ball.rect.colliderect(paddle.leftrect):
+		ball.bounce_top()
+		ball.bounce_left()
+	elif ball.rect.colliderect(paddle.rightrect):
+		ball.bounce_top()
+		ball.bounce_right()
+	if ball.rect.colliderect(paddle.rightrect) and ball.rect.colliderect(paddle.leftrect):
+		print("There is no easter egg...")
 	ball.update()
+	ball.draw()
 
 	pygame.display.update()
-
 # os.system("cls")
 sys.exit(0)
