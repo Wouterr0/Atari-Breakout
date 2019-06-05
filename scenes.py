@@ -68,3 +68,12 @@ def win(score):
 	
 		s.check_closed()
 		pygame.display.update()
+
+
+def pause(background):
+	background = s.PIL_to_surface(s.brightness(s.surface_to_PIL(background), 0.3))
+	while True:
+		s.win.blit(background, (0, 0))
+
+		s.check_closed()
+		pygame.display.update()

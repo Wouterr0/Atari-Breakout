@@ -1,7 +1,7 @@
 import pygame
 import sys
 import os
-from PIL import Image
+from PIL import Image, ImageEnhance
 
 os.system("cls")
 
@@ -33,6 +33,22 @@ def safe_div(x, y):
 		return 0
 	return x/y
 
+
+def surface_to_PIL(surface):
+	raw_str = pygame.image.tostring(surface, "RGBA", False)
+	image = Image.frombytes("RGBA", surface.get_size(), raw_str)
+	return image
+
+
+def PIL_to_surface(image):
+	raw_str = image.tobytes("raw", "RGBA")
+	surface = pygame.image.fromstring(raw_str, image.size, "RGBA")
+	return surface
+
+
+def brightness(image, brightness):
+	return ImageEnhance.Brightness(image).enhance(brightness)
+
 # Path settings
 path = os.path.dirname(__file__)
 res_path = os.path.join(path, "resources")
@@ -51,8 +67,7 @@ easterEgg_image_path = os.path.join(img_path, "easter_egg.png")
 easterEgg_image = pygame.image.load(easterEgg_image_path)
 easterEgg_image_fliped_PIL = Image.open(easterEgg_image_path).transpose(Image.FLIP_LEFT_RIGHT)
 
-easterEgg_image_fliped_PIL_info = (easterEgg_image_fliped_PIL.tobytes(), easterEgg_image_fliped_PIL.size, easterEgg_image_fliped_PIL.mode)
-easterEgg_image_fliped = pygame.image.fromstring(*easterEgg_image_fliped_PIL_info)
+easterEgg_image_fliped = PIL_to_surface(easterEgg_image_fliped_PIL)
 
 bounce_sound = pygame.mixer.Sound(os.path.join(sound_path, "ball.wav"))
 
