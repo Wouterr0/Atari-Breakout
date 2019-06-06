@@ -98,7 +98,9 @@ def main_game(difficulty):
 		ball.draw()
 
 		if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-			scenes.pause(pygame.display.get_surface())
+			pause = scenes.pause(pygame.display.get_surface())
+			if pause:
+				return
 		s.check_closed()
 
 		pygame.display.update()
