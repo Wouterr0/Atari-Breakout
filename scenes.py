@@ -38,26 +38,26 @@ def begin():
 
 
 def death(score):
-	death_text = s.big_font.render("You lost! Your score was " + str(score), True, s.WHITE)
+	death_text = s.big_font.render("You lost! Score: " + str(score), True, s.WHITE)
 	return_text = s.normal_font.render("Press space to return to home.", True, s.WHITE)
 	while not pygame.key.get_pressed()[pygame.K_SPACE]:
 		s.win.fill(s.BLACK)
 		pygame.draw.rect(s.win, s.RED, (s.WIDTH/20, s.HEIGHT / 5, (s.WIDTH/20)*18, (s.HEIGHT/5)*3))
-		s.win.blit(death_text, ((s.WIDTH-death_text.get_width()) / 2, (s.HEIGHT-death_text.get_height())/2))
-		s.win.blit(return_text, ((s.WIDTH-return_text.get_width()) / 2, ((s.HEIGHT-return_text.get_height())/2)+100))
+		s.win.blit(death_text, ((s.WIDTH-death_text.get_width()) / 2, (s.HEIGHT-death_text.get_height()) / 2-s.HEIGHT/8))
+		s.win.blit(return_text, ((s.WIDTH-return_text.get_width()) / 2, ((s.HEIGHT-return_text.get_height()) / 2)+s.HEIGHT/8))
 
 		s.check_closed()
 		pygame.display.update()
 
 
 def win(score):
-	winning_title = s.big_font.render("You won! Your score was " + str(score), True, s.WHITE)
+	winning_title = s.big_font.render("You won! Score: " + str(score), True, s.WHITE)
 	return_text = s.normal_font.render("Press space to return to home.", True, s.WHITE)
 	while not pygame.key.get_pressed()[pygame.K_SPACE]:
 		s.win.fill(s.BLACK)
 		pygame.draw.rect(s.win, s.ORANGE, (s.WIDTH/14, s.HEIGHT / 5, (s.WIDTH/14)*12, (s.HEIGHT/5)*3))
-		s.win.blit(winning_title, ((s.WIDTH-winning_title.get_width()) / 2, (s.HEIGHT-winning_title.get_height())/2))
-		s.win.blit(return_text, ((s.WIDTH-return_text.get_width()) / 2, ((s.HEIGHT-return_text.get_height())/2)+100))
+		s.win.blit(winning_title, ((s.WIDTH-winning_title.get_width()) / 2, (s.HEIGHT-winning_title.get_height()) / 2-s.HEIGHT/8))
+		s.win.blit(return_text, ((s.WIDTH-return_text.get_width()) / 2, ((s.HEIGHT-return_text.get_height()) / 2)+s.HEIGHT/8))
 
 		# Easteregg
 		if pygame.key.get_pressed()[pygame.K_KP_ENTER] or pygame.key.get_pressed()[pygame.K_ESCAPE]:
@@ -66,5 +66,25 @@ def win(score):
 			else:
 				s.win.blit(s.easterEgg_image, ((s.WIDTH-s.easterEgg_image.get_width())/2, (s.HEIGHT-s.easterEgg_image.get_height())/2))
 	
+		s.check_closed()
+		pygame.display.update()
+
+
+def pause(background):
+	background = s.PIL_to_surface(s.brightness(s.surface_to_PIL(background), 0.3))
+	unpauseBtn = pygame.Rect(s.WIDTH/5, s.HEIGHT/3, s.WIDTH/5*3, s.HEIGHT/3)
+	unpauseBtnText = s.big_font.render("Unpause", True, s.WHITE)
+	returnToHomeText = s.normal_font.render("Press SPACE to return to home", True, s.WHITE)
+	while True:
+		s.win.blit(background, (0, 0))
+		pygame.draw.rect(s.win, s.DARK_RED, unpauseBtn)
+		s.win.blit(unpauseBtnText, ((s.WIDTH-unpauseBtnText.get_width()) / 2, ((s.HEIGHT-unpauseBtnText.get_height()) / 2)))
+		s.win.blit(returnToHomeText, ((s.WIDTH-returnToHomeText.get_width()) / 2, ((s.HEIGHT-returnToHomeText.get_height()) / 2 + s.HEIGHT/8)))
+		
+		if pygame.key.get_pressed()[pygame.K_SPACE]:
+			return 1
+		elif unpauseBtn.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
+			return
+
 		s.check_closed()
 		pygame.display.update()
