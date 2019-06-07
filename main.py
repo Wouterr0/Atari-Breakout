@@ -101,6 +101,7 @@ def main_game(difficulty):
 			pause = scenes.pause(pygame.display.get_surface())
 			if pause:
 				return
+				
 		s.check_closed()
 
 		pygame.display.update()
