@@ -29,7 +29,7 @@ def main_game(difficulty):
 
 	# Create a paddle and ball
 	paddle = objects.Paddle((s.WIDTH/2)-(s.PADDLE_WIDTH/2), s.HEIGHT-50, s.PADDLE_WIDTH, 15, s.paddle_image)
-	ball = objects.Ball(s.WIDTH//2, s.HEIGHT-(s.HEIGHT/2), s.BALL_SPEED, 10, s.ball_image, s.bounce_sound)
+	ball = objects.Ball(30, 30, s.BALL_SPEED, 10, s.ball_image, s.bounce_sound)
 
 	start = time.time()
 

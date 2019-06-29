@@ -64,7 +64,7 @@ class Paddle(pygame.sprite.Sprite):
 			pygame.draw.rect(s.win, self.color, self.rect)
 		elif hasattr(self, "image"):
 			s.win.blit(self.image, (self.x, self.y))
-			
+
 
 class Ball(pygame.sprite.Sprite):
 	def __init__(self, xpos, ypos, speed, radius, image, sound):
@@ -73,10 +73,10 @@ class Ball(pygame.sprite.Sprite):
 		self.y = ypos
 		self.radius = radius
 		self.image = image
-		self.rect = self.image.get_rect()
+		self.rect = pygame.Rect(int(self.x-self.radius), int(self.y-self.radius), int(self.x+self.radius), int(self.y+self.radius))
 		self.width = self.image.get_width()
 		self.height = self.image.get_height()
-		self.alpha = np.pi*0.5 + np.random.normal()*np.pi/8 # The angle of the Ball facing to.
+		self.alpha = np.pi*0.5 + np.random.normal()*np.pi/8 # The angle the Ball is facing towards in radians.
 		self.speed = speed
 		self.color = s.WHITE
 		self.sound = sound
@@ -93,21 +93,21 @@ class Ball(pygame.sprite.Sprite):
 
 	# Draw ball object
 	def draw(self):
-		s.win.blit(self.image, (self.x, self.y))
-		pygame.draw.rect(s.win, s.LIGHT_BLUE, self.rect)
+		s.win.blit(self.image, (self.x-self.radius, self.y-self.radius))
+		# pygame.draw.rect(s.win, s.LIGHT_BLUE, self.rect) # For debug purposes
 
 	def collide_wall(self):
 		'''
 		Checks if it hits the wall. If so then it bounces in the right direction.
 		'''
 		# Collide top
-		if self.y <= 0:
+		if self.y-self.radius <= 0:
 			self.bounce_bottom()
 		# Collide left
-		if self.x <= 0:
+		if self.x-self.radius <= 0:
 			self.bounce_right()
 		# Collide right
-		if (self.x+(self.radius*2)) >= s.WIDTH:
+		if self.x+self.radius >= s.WIDTH:
 			self.bounce_left()
 
 	def bounce_top(self):
