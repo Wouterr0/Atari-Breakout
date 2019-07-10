@@ -48,7 +48,7 @@ def main_game(difficulty):
 
 		# Paddle control
 		if pygame.mouse.get_pos()[0] > 0+(s.PADDLE_WIDTH/2) and pygame.mouse.get_pos()[0] < s.WIDTH-(s.PADDLE_WIDTH/2):
-			paddle.control() 
+			paddle.control((difficulty-1)*50, (time.time()-start))
 		elif pygame.mouse.get_pos()[0] < 0+(s.PADDLE_WIDTH/2):
 			paddle.x = 0
 		elif pygame.mouse.get_pos()[0] > s.WIDTH-(s.PADDLE_WIDTH/2):

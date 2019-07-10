@@ -1,6 +1,7 @@
 import colorsys
 import numpy as np
 import pygame
+from noise import pnoise1
 
 import globals as s
 
@@ -50,9 +51,9 @@ class Paddle(pygame.sprite.Sprite):
 		else:
 			raise AttributeError("No or wrong appearance attribute is given. Please give a tuple for a colored Paddle or a pygame.Surface and image is displayed.")
 
-	def control(self):
+	def control(self, distortion_level, time):
 		# Paddle to mouse x
-		self.x = pygame.mouse.get_pos()[0]-(self.width/2)
+		self.x = pygame.mouse.get_pos()[0]-(self.width/2) + pnoise1(time)*distortion_level
 
 	def draw(self):
 		self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
