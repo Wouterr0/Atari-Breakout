@@ -93,10 +93,13 @@ LIGHT_BLUE = (127, 127, 255, 255)
 
 
 # Block settings
-blockwidth = WIDTH # 75
-blockheight = 40
-total_layers = 1 #6
-TOP_MARGIN = WIDTH/6
+blockwidth = WIDTH  # This is temporarily and is gonna be overwritten
+blockspace = 0		# This is temporarily and is gonna be overwritten
+blockheight = 0		# This is temporarily and is gonna be overwritten
+total_layers = 1 	# This is temporarily and is gonna be overwritten
+
+TOP_MARGIN = HEIGHT/6
+BOTTOM_MARGIN = HEIGHT/2
 
 
 # Paddle settings
@@ -110,3 +113,5 @@ BALL_SPEED = 5
 # Scene settings
 DIFFS = {1: "Easy", 2: "Normal", 3: "Hard"}
 
+# Player settings
+high_score = 0

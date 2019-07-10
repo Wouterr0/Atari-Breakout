@@ -2,7 +2,7 @@ import colorsys
 import numpy as np
 import pygame
 
-import settings as s
+import globals as s
 
 
 class Block():
@@ -78,7 +78,6 @@ class Ball(pygame.sprite.Sprite):
 		self.height = self.image.get_height()
 		self.alpha = np.pi*0.5 + np.random.normal()*np.pi/8 # The angle the Ball is facing towards in radians.
 		self.speed = speed
-		self.color = s.WHITE
 		self.sound = sound
 		self.collided_block = None
 
@@ -87,8 +86,8 @@ class Ball(pygame.sprite.Sprite):
 		Updates the state of the Ball one frame further.
 		'''
 		self.collide_wall()
-		self.x += np.cos(self.alpha) * self.speed
-		self.y += np.sin(self.alpha) * self.speed
+		self.x += int(np.cos(self.alpha) * self.speed)
+		self.y += int(np.sin(self.alpha) * self.speed)
 		self.rect = pygame.Rect(int(self.x-self.radius), int(self.y-self.radius), self.radius*2, self.radius*2)
 
 	# Draw ball object
@@ -126,10 +125,10 @@ class Ball(pygame.sprite.Sprite):
 		'''Let the Ball bounce from the right to the left'''
 		pygame.mixer.Sound.play(self.sound)
 		if np.cos(self.alpha) > 0:
-			self.alpha = np.pi - self.alpha
+			self.alpha = np.pi - self.alpha + np.random.normal()*np.pi/16
 
 	def bounce_right(self):
 		'''Let the Ball bounce from the left to the right.'''
 		pygame.mixer.Sound.play(self.sound)
 		if np.cos(self.alpha) < 0:
-			self.alpha = np.pi - self.alpha
+			self.alpha = np.pi - self.alpha + np.random.normal()*np.pi/16
