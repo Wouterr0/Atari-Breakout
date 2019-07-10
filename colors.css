@@ -1,0 +1,19 @@
+colors {
+	color: rgb(255, 255, 255);		/*WHITE*/
+	color: rgb(127, 127, 127);		/*GREY*/
+	color: rgb(0, 0, 0);			/*BLACK*/
+	color: rgb(255, 0, 255);		/*FUCHSIA*/
+	color: rgb(255, 0, 0);			/*RED*/
+	color: rgb(255, 127, 0);		/*ORANGE*/
+	color: rgb(255, 255, 0);		/*JELLOW*/
+	color: rgb(0, 255, 0);			/*GREEN*/
+	color: rgb(0, 255, 255);		/*AQUA*/
+	color: rgb(0, 0, 255);			/*BLUE*/
+	color: rgb(255, 0, 255);		/*PURPLE*/
+	color: rgb(127, 0, 0);			/*DARK_RED*/
+	color: rgb(0, 127, 0);			/*DARK_GREEN*/
+	color: rgb(0, 0, 127);			/*DARK_BLUE*/
+	color: rgb(255, 127, 127);		/*LIGHT_RED*/
+	color: rgb(127, 255, 127);		/*LIGHT_GREEN*/
+	color: rgb(127, 127, 255)		/*LIGHT_BLUE*/
+}
