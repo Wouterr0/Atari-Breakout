@@ -87,8 +87,8 @@ class Ball(pygame.sprite.Sprite):
 		Updates the state of the Ball one frame further.
 		'''
 		self.collide_wall()
-		self.x += int(np.cos(self.alpha) * self.speed)
-		self.y += int(np.sin(self.alpha) * self.speed)
+		self.x += np.cos(self.alpha) * self.speed
+		self.y += np.sin(self.alpha) * self.speed
 		self.rect = pygame.Rect(int(self.x-self.radius), int(self.y-self.radius), self.radius*2, self.radius*2)
 
 	# Draw ball object
